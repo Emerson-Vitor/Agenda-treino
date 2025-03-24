@@ -1,0 +1,131 @@
+.corpo {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    background: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+  }
+  select,
+  input,
+  button,
+  textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+  }
+  select,
+  input,
+  textarea {
+    background-color: #2a2a2a;
+    color: white;
+  }
+  button {
+    background-color: #6200ea;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #3700b3;
+  }
+  .hidden {
+    display: none;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #444;
+  }
+  th {
+    background-color: #6200ea;
+    color: white;
+  }
+  td {
+    color: white;
+  }
+  /* Esconde a versão lista por padrão */
+  .list-container {
+        display: none;
+    }
+
+    /* Estilo para a versão de celular */
+    @media (max-width: 768px) {
+        .table-container {
+            display: none;
+        }
+
+        .list-container {
+            display: block;
+        }
+
+        .list-group {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #6200ea;
+        }
+
+        .list-item {
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item strong {
+            color: #00e4ea;
+        }
+    }
+
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid white;
+    border-top: 5px solid purple;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
