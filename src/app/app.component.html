@@ -42,7 +42,7 @@
       <div id="agendaTreino" *ngIf="modo === 'agenda'">
         <h2>Agenda de Treino</h2>
         <label for="diaTreino">Dia da Semana:</label>
-        <select id="diaTreino"  [(ngModel)]="diaSelecionado" (change)="carregarExerciciosAgenda(diaSelecionado)">
+        <select id="diaTreino"  [(ngModel)]="diaSelecionado" (ngModelChange)="carregarExerciciosAgenda(diaSelecionado)">
           <option value="">Selecione um dia</option>
           <option value="Segunda-feira">Segunda-feira</option>
           <option value="Terça-feira">Terça-feira</option>

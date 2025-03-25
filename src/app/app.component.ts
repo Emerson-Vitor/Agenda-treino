@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {NgForOf, NgIf} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, FormGroup, Validators, FormBuilder} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -13,17 +13,27 @@ import {FormsModule} from '@angular/forms';
 })
 
 export class AppComponent implements OnInit {
+  agendaForm: FormGroup;
   urlBase = 'https://script.google.com/macros/s/AKfycbyviFs9MB13IPH56GqNAppLv6b_w1dm9qjR0o-7DV5OscaVZDsM6n3iqzGyZZa2mlaY/exec';
-  modo: string = 'visualizar';
+  modo = 'visualizar';
   loadingOverlayVisible = false;
-  diaSelecionado: string = '';
-  exercicioSelecionado: string = '';
+  diaSelecionado = '';
+  exercicioSelecionado = '';
   seriesFeitas: number | null = null;
   carga: number | null = null;
   repsFeitas: number | null = null;
-  descansoFeito: string = '';
-  equipamentos: string = '';
+  descansoFeito = '';
+  equipamentos = '';
   exercicios: { nome: string; series: number; repeticoes: number; descanso: number; carga: number }[] = [];
+  diasDaSemana: string[] = [
+    'Segunda-feira',
+    'Terça-feira',
+    'Quarta-feira',
+    'Quinta-feira',
+    'Sexta-feira',
+    'Sábado',
+    'Domingo'
+  ];
 
   alternarModo() {
     const selectElement = document.getElementById('modo') as HTMLSelectElement;
@@ -32,9 +42,18 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    this.agendaForm = this.fb.group({
+      diaTreino: ['', Validators.required],
+      exercicioTreino: ['', Validators.required],
+      seriesFeitas: ['', [Validators.required, Validators.min(1)]],
+      carga: ['', Validators.min(0)],
+      repsFeitas: ['', [Validators.required, Validators.min(1)]],
+      descansoFeito: [''],
+      equipamentos: [''],
+    });
     this.initTableConversion();
   }
 
@@ -79,16 +98,8 @@ export class AppComponent implements OnInit {
     }, 3000);
   }
 
-  registrarTreino(
-    dia: string,
-    exercicio: string,
-    seriesFeitas: number | null,
-    carga: number | null,
-    repsFeitas: number | null,
-    descansoFeito: string,
-    equipamentos: string
-  ): void {
-    if (!dia || !exercicio || !seriesFeitas || !carga || !repsFeitas || !descansoFeito || !equipamentos) {
+  registrarTreino(): void {
+    if (!this.agendaForm.valid) {
       alert('Preencha todos os campos!');
       return;
     }
@@ -97,13 +108,13 @@ export class AppComponent implements OnInit {
 
     const dados = {
       tipo: 'registro',
-      dia,
-      exercicio,
-      seriesFeitas,
-      carga,
-      repsFeitas,
-      descansoFeito,
-      equipamentos,
+      dia: this.agendaForm.get('diaTreino')?.value ?? ' ',
+      exercicio: this.agendaForm.get('exercicioTreino')?.value ?? ' ',
+      seriesFeitas: this.agendaForm.get('seriesFeitas')?.value ?? ' ',
+      carga: this.agendaForm.get('carga')?.value ?? ' ',
+      repsFeitas: this.agendaForm.get('repsFeitas')?.value ?? ' ',
+      descansoFeito: this.agendaForm.get('descansoFeito')?.value ?? ' ',
+      equipamentos: this.agendaForm.get('equipamentos')?.value ?? ' ',
     };
 
     this.http.post(this.urlBase, dados, { headers: { 'Content-Type': 'application/json' } }).subscribe(
@@ -132,7 +143,7 @@ export class AppComponent implements OnInit {
     this.carregandoOn();
     const url = `${this.urlBase}?sheet=FichasTreino&dia=${encodeURIComponent(dia)}`;
 
-    this.http.get<{ [key: string]: string }>(url).subscribe({
+    this.http.get<Record<string, string>>(url).subscribe({
       next: (exercicios) => {
         if (exercicios && Object.keys(exercicios).length > 0) {
           // Transforma a resposta em uma lista de exercícios
@@ -150,7 +161,7 @@ export class AppComponent implements OnInit {
         this.carregandoOff(); // Finaliza estado de carregamento
       },
       error: (err) => {
-        console.error('Erro ao carregar exercícios:', err);
+          console.error('Erro ao carregar exercícios:', err);
         this.exercicios = []; // Garante que a lista de exercícios é esvaziada em caso de erro
         this.carregandoOff(); // Finaliza estado de carregamento mesmo em caso de erro
       },
