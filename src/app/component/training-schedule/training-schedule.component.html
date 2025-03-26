@@ -1,0 +1,21 @@
+<div id="agendaTreino">
+  <form [formGroup]="trainingForm">
+    <h2>Diario de Bordo</h2>
+    <div *ngFor="let controlName of formControlNames">
+      <div *ngIf="controlName === 'diaTreino'">
+        <select id="diaTreino" formControlName="diaTreino"  (change)="loadExercises(trainingForm.get('diaTreino')?.value)" required>
+          <option value="">Selecione um dia</option>
+          <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+        </select>
+        <select id="exercicioTreino"  required>
+          <option value="">Selecione o exercicio</option>
+          <option *ngFor="let exercise of exercises" [value]="exercise.name">{{ exercise.name }}</option>
+        </select>
+      </div>
+      <div *ngIf="controlName !== 'diaTreino' && controlName !== 'exercicioTreino'">
+        <input type="text" [id]="controlName" [placeholder]="controlName" #inputField required>
+      </div>
+    </div>
+    <button type="button" (click)="submitTraining()">Submit</button>
+  </form>
+</div>

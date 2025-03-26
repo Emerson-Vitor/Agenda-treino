@@ -1,0 +1,15 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+<!--    <img src="caminho/para/sua/logo.png" alt="Logo" class="navbar-logo">-->
+    <span class="navbar-title">Nome da sua aplicação</span>
+  </div>
+  <div class="navbar-menu">
+    <button class="navbar-toggle" (click)="toggleMenu()">
+      <span>☰</span>
+    </button>
+    <div class="navbar-dropdown" [class.show]="menuOpen">
+      <h3 (click)="changeMode('view')">Visualizar Treino</h3>
+      <h3 (click)="changeMode('schedule')">Usar Agenda de Treino</h3>
+    </div>
+  </div>
+</nav>

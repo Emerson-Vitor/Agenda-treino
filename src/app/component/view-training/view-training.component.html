@@ -1,0 +1,33 @@
+<div id="visualizarTreino">
+  <h2>Visualizar Treino</h2>
+  <form>
+    <label for="viewDay">Dia da Semana:</label>
+    <select id="viewDay" #viewDay (change)="loadLastTrainingSession(viewDay.value)">
+      <option value="">Selecione um dia</option>
+      <option *ngFor="let day of daysOfWeek" [value]="day">{{ day }}</option>
+    </select>
+  </form>
+  <div class="table-container">
+    <table id="data-table">
+      <thead>
+      <tr>
+        <th>Exercício</th>
+        <th>Séries</th>
+        <th>Repetições</th>
+        <th>Descanso</th>
+        <th>Última Carga (kg)</th>
+      </tr>
+      </thead>
+      <tbody id="tabelaTreino" *ngFor="let exercise of exercises">
+      <tr>
+        <td>{{ exercise.name || "-" }}</td>
+        <td>{{ exercise.series || "-" }}</td>
+        <td>{{ exercise.repetitions || "-" }}</td>
+        <td>{{ exercise.rest || "-" }}</td>
+        <td>{{ exercise.weight == 0 ? "Valores não atribuidos" : exercise.weight }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="list-container" id="list-container"></div>
+</div>
