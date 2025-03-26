@@ -1,71 +1,14 @@
 <div class="corpo">
-
+    <app-navbar (modeChange)="alternarModo($event)"></app-navbar>
     <div class="container">
-      <h2>Escolha uma opção</h2>
-      <select id="modo" (change)="alternarModo()">
-        <option value="visualizar">Visualizar Treino</option>
-        <option value="agenda">Usar Agenda de Treino</option>
-        <option value="holt">Diagrama de Holten</option>
-      </select>
+        <app-view-training
+                *ngIf="mode === 'view'">
+        </app-view-training>
 
-      <div id="visualizarTreino" *ngIf="modo === 'visualizar'" >
-        <h2>Visualizar Treino</h2>
-        <label for="diaVisualizar">Dia da Semana:</label>
-        <select id="diaVisualizar" (change)="carregarTreinoDoDiaUltimaCarga()">
-          <option value="">Selecione um dia</option>
-          <option value="Segunda-feira">Segunda-feira</option>
-          <option value="Terça-feira">Terça-feira</option>
-          <option value="Quarta-feira">Quarta-feira</option>
-          <option value="Quinta-feira">Quinta-feira</option>
-          <option value="Sexta-feira">Sexta-feira</option>
-          <option value="Sábado">Sábado</option>
-          <option value="Domingo">Domingo</option>
-        </select>
-      <div class="table-container">
-        <table id="data-table">
-          <thead>
-            <tr>
-              <th>Exercício</th>
-              <th>Séries</th>
-              <th>Repetições</th>
-              <th>Descanso</th>
-              <th>Última Carga (kg)</th>
-            </tr>
-          </thead>
-          <tbody id="tabelaTreino"></tbody>
-        </table>
-      </div>
-
-      <div class="list-container" id="list-container"></div>
-      </div>
-
-      <div id="agendaTreino" *ngIf="modo === 'agenda'">
-        <h2>Agenda de Treino</h2>
-        <label for="diaTreino">Dia da Semana:</label>
-        <select id="diaTreino"  [(ngModel)]="diaSelecionado" (ngModelChange)="carregarExerciciosAgenda(diaSelecionado)">
-          <option value="">Selecione um dia</option>
-          <option value="Segunda-feira">Segunda-feira</option>
-          <option value="Terça-feira">Terça-feira</option>
-          <option value="Quarta-feira">Quarta-feira</option>
-          <option value="Quinta-feira">Quinta-feira</option>
-          <option value="Sexta-feira">Sexta-feira</option>
-          <option value="Sábado">Sábado</option>
-          <option value="Domingo">Domingo</option>
-        </select>
-        <select id="exercicioTreino" [(ngModel)]="exercicioSelecionado">
-          <option value="">Selecione um dia primeiro</option>
-          <option *ngFor="let exercicio of exercicios" [value]="exercicio">{{ exercicio.nome }}</option>
-        </select>
-        <input type="number" id="seriesFeitas" placeholder="Séries Feitas" [(ngModel)]="seriesFeitas" />
-        <input type="number" id="carga" placeholder="Carga (kg)" [(ngModel)]="carga" />
-        <input type="number" id="repsFeitas" placeholder="Repetições" [(ngModel)]="repsFeitas" />
-        <input type="text" id="descansoFeito" placeholder="Descanso" [(ngModel)]="descansoFeito" />
-        <input type="text" id="equipamentos" placeholder="Equipamentos" [(ngModel)]="equipamentos" />
-        <button (click)="registrarTreino(diaSelecionado, exercicioSelecionado, seriesFeitas, carga, repsFeitas, descansoFeito, equipamentos)">Registrar Treino</button>
-      </div>
-
+        <app-training-schedule
+                *ngIf="mode === 'schedule'">
+        </app-training-schedule>
     </div>
-    <div class="loading-overlay" id="loadingOverlay">
-      <div class="loading-spinner"></div>
-    </div>
+    <app-loading-spinner ></app-loading-spinner>
+    <app-notification></app-notification>
 </div>

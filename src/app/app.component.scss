@@ -1,10 +1,26 @@
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
 .corpo {
-    font-family: Arial, sans-serif;
-    background-color: #121212;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  position: fixed; /* Ou position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100vw; /* 100% da largura da viewport */
+  height: 100vh; /* 100% da altura da viewport */
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  z-index: 1000; /* garante que fique por cima de tudo caso necessário */
   }
   .container {
     max-width: 90%;
@@ -18,7 +34,7 @@
   input,
   button,
   textarea {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin: 10px 0;
     border: none;
@@ -113,6 +129,9 @@
     align-items: center;
     z-index: 1000;
   }
+  #loading-overlay-visible {
+    display: flex;
+  }
   .loading-spinner {
     width: 50px;
     height: 50px;
@@ -129,3 +148,22 @@
       transform: rotate(360deg);
     }
   }
+
+.notification-overlay {
+  display: none;
+  position: fixed;
+  top: 5px;
+  right: 0;
+  width: 30%;
+  height: 10%;
+  box-shadow: -2px 2px 5px;
+  border-radius: 10px 0 0 10px;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+#notification-overlay-visible {
+  display: flex;
+}
+
+
